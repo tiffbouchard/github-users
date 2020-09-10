@@ -1,55 +1,83 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>GitHub Users</title>
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-      crossorigin="anonymous"
-    />
+    <title>GitFile</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body class="container">
-    <h1 class="jumbotron text-center">GitHub Users</h1>
     <div class="row">
-      <div class="col-xs-6 col-xs-offset-6">
+      <header id="header">
         <form action="/" method="GET">
-          <div class="input-group">
-            <input
-              type="text"
-              name="username"
-              class="form-control"
-              placeholder="Enter a GitHub Username"
-            />
-            <span class="input-group-btn">
-              <button class="btn btn-success" type="submit">Go!</button>
-            </span>
-          </div>
-        </form>
-      </div>
-    </div>
-    <hr />
-    <div class="row col-xs-8 col-xs-offset-2">
-      <% if (userData) { %>
-      <div class="panel panel-default">
-        <div class="panel-heading text-center">
-          <img
-            src="<%= userData.avatar_url %>"
-            class="img-circle"
-            width="300"
+          <input
+            type="text"
+            name="username"
+            id="search-bar"
+            placeholder="Search"
           />
-          <h2><%= userData.login %></h2>
-        </div>
-        <div class="panel-body">
-          <h3>Repos:</h3>
-          need to list repos here...
+        </form>
+      </header>
+      <% if (userData) { %>
+      <div class="user">
+        <div class="user-container">
+          <div class="user-img-info">
+            <img src="<%= userData.avatar_url %>" />
+
+            <div class="user-info">
+              <h1><%= userData.name %></h1>
+
+              <a href="<%= userData.html_url %>" target="blank"
+                ><h3>@<%= userData.login %></h3></a
+              >
+
+              <h4><%= userData.location %></h4>
+
+              <h4><%= userData.bio %></h4>
+            </div>
+          </div>
+
+          <div class="user-stats">
+            <div class="stat">
+              <p><%= userData.public_repos %></p>
+              <p>repos</p>
+            </div>
+
+            <div class="stat">
+              <p><%= userData.followers %></p>
+              <p>followers</p>
+            </div>
+
+            <div class="stat">
+              <p><%= userData.following %></p>
+              <p>following</p>
+            </div>
+          </div>
         </div>
       </div>
+      <div>
+        <h3>Repos:</h3>
+        <div class="repos">
+          <% userData.repos.forEach(function(repo) { %>
+          <a
+            href="<%= repo.html_url %>"
+            target="_blank"
+            class="list-group-item"
+          >
+            <div class="repo-card">
+              <h2><%= repo.name %></h2>
+              <p><%= repo.description %></p>
+              <p><%= repo.language %></p>
+              <span class="repo-stats"
+                ><span>✰<%= repo.stargazers_count %></span>
+                <span>Ψ<%= repo.forks %></span></span
+              >
+            </div>
+          </a>
+          <% }); %>
+        </div>
+      </div>
+
       <% } else { %>
-      <h3 class="text-center text-info">
-        Submit a GitHub username!
-      </h3>
+      <h3>Get your GitFile</h3>
       <% } %>
     </div>
   </body>
